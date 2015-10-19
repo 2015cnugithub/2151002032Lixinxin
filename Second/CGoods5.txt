@@ -1,0 +1,78 @@
+//注：上次作业第5题
+//要在程序中调用子类的usedFor()成员函数，则只需要通过在父类中定义纯虚函数，通过派生类对这个虚函数进行实现,从而实现动态联编。
+//注：主函数中对usedFor()成员函数的调用需要通过父类的对象指针或对象引用，从而在程序运行时确定调用虚函数的对象。
+#include <iostream>
+using namespace std;
+//说明部分
+class CGoods
+{
+private:
+	long no;
+	char *p_name;              //数据成员声明
+	double price;
+public:
+	
+	CGoods(long n,char *p,double e);   
+        ~CGoods();    
+	void print();
+        virtual void usedFor()=0;   //纯虚函数定义
+};
+CGoods::CGoods(long n,char *p,double e)
+{
+	no=n;
+        p_name=p;                   //构造函数
+	price=e;
+
+}
+CGoods::~CGoods(){
+        cout<<"基类的析构函数"<<endl;
+}
+
+void CGoods::print()       //打印数据成员
+{
+	cout<<"商品的编号："<<no<<","<<"商品的名称："<<p_name<<","<<"商品的价格:"<<price<<endl;
+}
+
+
+
+//子类的定义
+class CClothes:public CGoods
+{
+private:
+	char *p_brand;
+public:
+        CClothes(long n,char *p,double e,char *d):CGoods(n,p,e),p_brand(d)//成员初始化列表
+{
+         
+}
+	virtual void usedFor(){                                 //虚函数的实现
+        print();                                 
+        cout<<"商品品牌为："<<p_brand<<endl;
+}
+       ~CClothes（）{
+      cout<<"派生类的析构函数"<<endl;
+}
+};
+
+
+
+//子类的定义
+class CFood:public CGoods
+{
+private:
+	char *p_brand;
+public:
+CFood(long n,char *p,double e,char *d):CGoods(n,p,e),p_brand(d)//成员初始化列表
+{
+         
+}
+virtual void usedFor(){                                      //虚函数的实现
+        print();                                 
+        cout<<"商品品牌为："<<p_brand<<endl;
+}
+	~CFood（）{
+        cout<<"派生类的析构函数"<<endl;
+}
+};
+
+
